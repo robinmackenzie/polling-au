@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Polling places</title>
+    <meta name="description" content="Polling places">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="./vendor/smeijer/leaflet-locatecontrol/L.Control.Locate.css" />
+    <link rel="stylesheet" href="./vendor/smeijer/leaflet-locatecontrol/L.Control.Locate.ie.css" />
+    
+    <link rel="stylesheet" href="./vendor/smeijer/L.GeoSearch/css/l.geosearch.css" />
+    
+    <link rel="stylesheet" href="./vendor/Leaflet.markercluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="./vendor/Leaflet.markercluster/MarkerCluster.Default.css" />
+       
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <!-- navigation -->
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">AU Federal Election Polling Data</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- map row and data row -->
+    <div class="container-fluid" id="main">
+      <div class="row">
+        <div id="map" style="height: 480px;">
+        </div>
+      </div>      
+      <div class="row">
+        <h4>Options</h4>
+        <div class="checkbox">
+          <label><input id="checkDisplayCED" type="checkbox" value="" checked>Display CED layer</label>
+        </div>
+        <h4>Polling place</h4>
+        <div id="ppInfo">
+          <table class="table table-hover table-condensed" id="placeTable">
+            <tbody id="placeTableBody">
+            </tbody>
+          </table>
+        </div>
+        <h4>Voting data</h4>
+        <div id="ppVotes">
+          <table class="table table-hover table-condensed" id="voteResultsTable">
+            <thead>
+              <th>Candidate</th>
+              <th>Party</th>
+              <th>Party Code</th>
+              <th></th>
+              <th></th>
+              <th>Votes</th>
+            </thead>
+            <tbody id="voteResultsTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" type="text/javascript"></script>
+    <script src="./vendor/Leaflet.markercluster/leaflet.markercluster-src.js"></script>
+    <script src="./vendor/smeijer/leaflet-locatecontrol/L.Control.Locate.js"  type="text/javascript"></script>
+    <script src="./vendor/smeijer/L.GeoSearch/js/l.control.geosearch.js" type="text/javascript"></script>
+    <script src="./vendor/smeijer/L.GeoSearch/js/l.geosearch.provider.openstreetmap.js" type="text/javascript"></script>
+    <script src="./assets/js/MapManager.js" type="text/javascript"></script>
+    
+    <!-- run map -->
+    <script>MapManager.init();</script>
+
+  </body>
+</html>
+
