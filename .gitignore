@@ -47,4 +47,4 @@ Temporary Items
 .apdisk
 
 # exclude _source data
-_source/
+_source
