@@ -1,4 +1,7 @@
 <?php
+// set timezone
+date_default_timezone_set('UTC');
+
 // intialise slim
 require(__DIR__.'/../../vendor/autoload.php');
 use \Slim\App;
