@@ -29,10 +29,10 @@ class dbService {
     pp.lat,
     pp.long
     FROM 
-    v_polling_place_dim pp
-    INNER JOIN v_division_dim div 
+    rpt_polling_place_dim pp
+    INNER JOIN rpt_division_dim div 
     ON div.year = pp.year AND div.division_id = pp.division_id
-    INNER JOIN v_state_dim st
+    INNER JOIN rpt_state_dim st
     ON st.state_id = div.state_id
     WHERE
     pp.current_flag = 1';
@@ -61,7 +61,7 @@ class dbService {
     two_pp_votes,
     two_pp_swing
     FROM 
-    v_polling_place_fact 
+    rpt_polling_place_fact 
     WHERE 
     polling_place_id = :id AND year = :year';
     
