@@ -1,5 +1,5 @@
 <?php
-
+ 
 class dbService {
 
   const DSN = 'sqlite:au_polling_place_data.sqlite';
