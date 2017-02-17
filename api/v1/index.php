@@ -78,7 +78,7 @@ $app->get('/pollingplaces', function ($request, $response, $args) {
 })->add($rateLimit);
 
 // votes by polling place
-$app->get('/votes/{year}/{id}', function ($request, $response, $args) {
+$app->get('/votes2016/{id}', function ($request, $response, $args) {
   try {   
     // api output
     $result = array();
@@ -88,7 +88,7 @@ $app->get('/votes/{year}/{id}', function ($request, $response, $args) {
     $db = new dbservice();
     
     // query data
-    $result['data'] = $db->getVotesByPollingPlace($args['id'], $args['year']);
+    $result['data'] = $db->getVotesByPollingPlace($args['id']);
      
     // http status = all good
     $status = 200;

@@ -45,7 +45,7 @@ class dbService {
     
   }
   
-  public function getVotesByPollingPlace($id, $year) {
+  public function getVotesByPollingPlace($id) {
     
     $sql = 'SELECT 
     year,
@@ -59,15 +59,17 @@ class dbService {
     votes,
     swing,
     two_pp_votes,
-    two_pp_swing
+    two_pp_swing,
+    ced_votes,
+    ced_two_pp_votes,
+    pp_ced_ratio
     FROM 
-    rpt_polling_place_fact 
+    rpt_2016_polling_place_fact 
     WHERE 
-    polling_place_id = :id AND year = :year';
+    polling_place_id = :id';
     
     $query = $this->db->prepare($sql);
     $query->bindValue(':id', $id);
-    $query->bindValue(':year', $year);
     $query->execute();
     $rows = $query->fetchAll(PDO::FETCH_ASSOC);
     unset($query);

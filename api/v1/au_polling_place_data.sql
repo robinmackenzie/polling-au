@@ -160,18 +160,16 @@ select distinct
   StateAb state_name
 from raw_polling_places;
 
--- rpt_polling_place_fact
-drop table if exists rpt_polling_place_fact;
+-- rpt_2016_polling_place_fact
+drop table  rpt_2016_polling_place_fact;
 
-create table rpt_polling_place_fact (
+create table rpt_2016_polling_place_fact (
 year text,
 state text,
 division_id text,
 division_name text,
 polling_place_id text,
 polling_place_name text,
-pp_lat float,
-pp_long float,
 candidate_id text,
 candidate_name text,
 party_name text,
@@ -183,10 +181,13 @@ first_time_elected int,
 votes int,
 swing float,
 two_pp_votes int,
-two_pp_swing float
+two_pp_swing float,
+ced_votes int,
+ced_two_pp_votes int,
+pp_ced_ratio float
 );
 
-insert into rpt_polling_place_fact
+insert into rpt_2016_polling_place_fact
 select
 v.Year year,
 v.StateAb state,
@@ -194,8 +195,6 @@ v.DivisionID division_id,
 v.DivisionNm division_name,
 v.PollingPlaceID polling_place_id,
 v.PollingPlace polling_place_name,
-pp.Lat pp_lat,
-pp.Long pp_long,
 v.CandidateID candidate_id,
 c.full_name candidate_name,
 v.PartyNm party_name,
@@ -203,7 +202,6 @@ pg.party_group_code,
 pg.party_group_name,
 pg.party_group_rgb,
 case
-    when v.HistoricElected = "#" then 1
     when v.Elected = "Y" then 1
     else 0
 end elected,
@@ -214,16 +212,39 @@ end first_time_elected,
 cast(v.OrdinaryVotes as int) votes,
 cast(v.Swing as float) swing,
 cast(two.OrdinaryVotes as int) two_pp_votes,
-cast(two.Swing as float) two_pp_swing
+cast(two.Swing as float) two_pp_swing,
+cast(ced_votes.votes as int) ced_votes,
+cast(ced_votes.two_pp_votes as int) ced_two_pp_votes,
+cast(v.OrdinaryVotes / cast(ced_votes.votes as float) as float) pp_ced_ratio
 from raw_votes_by_pp v
-inner join rpt_polling_place_dim pp on pp.polling_place_id = v.PollingPlaceID
-and pp.Year = v.Year
-inner join rpt_candidate_dim c on c.candidate_id = v.CandidateID 
-and c.year = v.Year
-inner join rpt_party_group_code_dim pg on pg.party_group_code = v.PartyAb
+left join rpt_polling_place_dim pp on pp.polling_place_id = v.PollingPlaceID and pp.Year = v.Year
+left join rpt_candidate_dim c on c.candidate_id = v.CandidateID and c.year = v.Year
+left join rpt_party_group_code_dim pg on pg.party_group_code = v.PartyAb
 left join raw_two_party_preferred_by_pp two on two.Year = v.Year 
 and two.StateAb = v.StateAb 
 and two.DivisionID = v.DivisionID 
 and two.PollingPlaceID = v.PollingPlaceID
 and two.CandidateID = v.CandidateID
+inner join (
+select
+v2.Year,
+v2.DivisionID,
+v2.CandidateID,
+sum(v2.OrdinaryVotes) votes,
+sum(two2.OrdinaryVotes) two_pp_votes
+from
+raw_votes_by_pp v2
+left join raw_two_party_preferred_by_pp two2 on two2.Year = v2.Year 
+and two2.StateAb = v2.StateAb 
+and two2.DivisionID = v2.DivisionID 
+and two2.PollingPlaceID = v2.PollingPlaceID
+and two2.CandidateID = v2.CandidateID
+group by
+v2.Year,
+v2.DivisionID,
+v2.CandidateID
+) ced_votes on ced_votes.year = v.year
+and ced_votes.DivisionID = v.DivisionID
+and ced_votes.CandidateID = v.CandidateID
+where v.year = '2016'
 ;
