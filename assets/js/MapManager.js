@@ -124,7 +124,11 @@ var MapManager = (function() {
     var pp = pollingPlaces.filter(function(k) {return k.polling_place_id == id;});
     renderPollingPlaceInfoTable(pp[0]);
     $.ajax({
+<<<<<<< HEAD
       url: './api/v1/votes2016/' + id,
+=======
+      url: './api/v1/votes/2016/' + id,
+>>>>>>> origin/master
       type: 'get',
       success: function(json) {
         renderVotingDataTable(json.data);
@@ -163,10 +167,14 @@ var MapManager = (function() {
   var renderVotingDataTable = function(info) {
     
     var html, rgb;
+<<<<<<< HEAD
     // clear existing rows
     votesTableBody.empty();
     
     // add rows from data
+=======
+    
+>>>>>>> origin/master
     $.each(info, function(index, item) {
       html = '<tr>';
       html += '<td>' + item.candidate_name + '</td>';
