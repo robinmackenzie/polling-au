@@ -119,8 +119,6 @@ var MapManager = (function() {
   
   // get data on marker click
   var renderPollingPlaceData = function(id) {
-    infoTableBody.empty();
-    votesTableBody.empty();
     var pp = pollingPlaces.filter(function(k) {return k.polling_place_id == id;});
     renderPollingPlaceInfoTable(pp[0]);
     $.ajax({
@@ -134,29 +132,20 @@ var MapManager = (function() {
   
   // table builder functions
   var renderPollingPlaceInfoTable = function(info) {
-
-    var html = '<table class="table table-condensed table-hover">';
-    html += '<tbody>';
-    html += '<tr>';
-    html += '<th>Id</th>';
-    html += '<td>' + info.polling_place_id + '</td>';
-    html += '</tr>';
-    html += '<tr>';
-    html += '<th>Name</th>';
-    html += '<td>' + info.polling_place_name + '</td>';
-    html += '</tr>';
-    html += '<tr>';
-    html += '<th>Division</th>';
-    html += '<td>' + info.division_name + '</td>';
-    html += '</tr>';
-    html += '<tr>';
-    html += '<th>Address</th>';
-    html += '<td>' + info.address1 + '</td>';
-    html += '</tr>';
-    html += '</tbody>';
-    html += '</table>';
     
-    infoTable.html(html);
+    // get correct address html
+    var addressHtml = '';
+    var addressItems = [info.address1, info.address2, info.address3, info.locality, info.postcode];
+    addressHtml = addressItems.filter(function(k) {return k !== null;}).join('<br>');
+    
+    // place info array
+    var latLong = info.lat + ' ' + info.long
+    var placeInfo = [info.polling_place_id, info.polling_place_name, info.division_name, addressHtml, latLong];   
+    
+    // render table
+    $.each(placeInfo, function(index, item) {
+      infoTableBody.children().eq(index).children().eq(1).html(placeInfo[index]);
+    });
     
   };
   
@@ -185,6 +174,11 @@ var MapManager = (function() {
         html += '<td></td>';
       }
       html += '<td>' + item.votes + '</td>';
+      html += '<td>' + item.swing + '</td>';
+      html += '<td>' + (item.two_pp_votes == null ? '' : item.two_pp_votes) + '</td>';
+      html += '<td>' + item.ced_votes + '</td>';
+      html += '<td>' + (item.ced_two_pp_votes == null ? '' : item.ced_two_pp_votes) + '</td>';
+      html += '<td>' + (item.pp_ced_ratio * 100).toFixed(3)+'%' + '</td>';
       html += '</tr>';
       votesTableBody.append(html);     
     });
