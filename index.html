@@ -36,35 +36,41 @@
     <!-- map row and data row -->
     <div class="container-fluid" id="main">
       <div class="row">
-        <div id="map" style="height: 480px;">
+        <div class="col-md-9">
+          <div id="map" style="height: 480px;">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <h4>Options</h4>
+          <div class="checkbox">
+            <label><input id="checkDisplayCED" type="checkbox" value="" checked>Display CED layer</label>
+          </div>
+          <h4>Polling place</h4>
+          <div id="ppInfo">
+            <table class="table table-hover table-condensed" id="placeTable">
+              <tbody id="placeTableBody">
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>      
       <div class="row">
-        <h4>Options</h4>
-        <div class="checkbox">
-          <label><input id="checkDisplayCED" type="checkbox" value="" checked>Display CED layer</label>
-        </div>
-        <h4>Polling place</h4>
-        <div id="ppInfo">
-          <table class="table table-hover table-condensed" id="placeTable">
-            <tbody id="placeTableBody">
-            </tbody>
-          </table>
-        </div>
-        <h4>Voting data</h4>
-        <div id="ppVotes">
-          <table class="table table-hover table-condensed" id="voteResultsTable">
-            <thead>
-              <th>Candidate</th>
-              <th>Party</th>
-              <th>Party Code</th>
-              <th></th>
-              <th></th>
-              <th>Votes</th>
-            </thead>
-            <tbody id="voteResultsTableBody">
-            </tbody>
-          </table>
+        <div class="col-md-12">
+          <h4>Voting data</h4>
+          <div id="ppVotes">
+            <table class="table table-hover table-condensed" id="voteResultsTable">
+              <thead>
+                <th>Candidate</th>
+                <th>Party</th>
+                <th>Party Code</th>
+                <th></th>
+                <th></th>
+                <th>Votes</th>
+              </thead>
+              <tbody id="voteResultsTableBody">
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
